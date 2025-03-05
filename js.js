@@ -15,7 +15,13 @@ function factor(n){
       break;
     }
   }
-  return fatores;
+
+  let result = {}
+  fatores.forEach(e => {
+    if(result[e]) result[e]++
+    else result[e]=1
+  })
+  return result;
 }
 
 const func = val => document.getElementById("demo").innerHTML = factor(val)
