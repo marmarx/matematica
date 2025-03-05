@@ -18,4 +18,4 @@ function factor(n){
   return fatores;
 }
 
-const func = val => document.getElementById("demo").innerHTML = fatores(val)
+const func = val => document.getElementById("demo").innerHTML = factor(val)
