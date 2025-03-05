@@ -21,7 +21,12 @@ function factor(n){
     if(result[e]) result[e]++
     else result[e]=1
   })
-  return result;
+
+  let print = []
+  Object.keys(result).forEach(k => print.push(
+    `${k}<sup>${result[k]}</sup>`
+  ))
+  return print.join("<br>");
 }
 
 const func = val => document.getElementById("demo").innerHTML = factor(val)
