@@ -26,7 +26,7 @@ function factor(n){
   Object.keys(result).forEach(k => print.push(
     `${k}<sup>${result[k]}</sup>`
   ))
-  return print.join("<br>");
+  return fatores;
 }
 
 const func = val => document.getElementById("demo").innerHTML = factor(val)
