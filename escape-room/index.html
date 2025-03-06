@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <title>A Biblioteca dos Números Perdidos</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="author" content="Marco Martins">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e0ebdb"><!--#2f4550-->
+  <link rel="stylesheet" href="css.css">
+</head>
+
+<body>
+<div id="game">
+
+  <h1>A Biblioteca dos Números Perdidos</h1>
+  <div id="intro">
+    <p>Bem-vindos à Biblioteca dos Números Perdidos. Para sair, vocês devem resolver os enigmas matemáticos e completar as missões que os levarão à chave da saída. Boa sorte!</p>
+    <button onclick="startGame()">Começar</button>
+  </div>
+
+  <div id="sala1" class="sala">
+    <h2>Sala 1: A Porta dos Números</h2>
+    <p>Resolva os problemas para abrir cada uma das quatro fechaduras.</p>
+    <div class="enigma">
+      <p>Fechadura 1: Encontre o número que somado a 34 resulta em 89.</p>
+      <input type="number" id="fechadura1">
+      <button onclick="checkFechadura1()">Verificar</button>
+      <p id="result1"></p>
+    </div>
+    <div class="enigma">
+      <p>Fechadura 2: Qual é o número que, ao ser subtraído de 75, dá 22?</p>
+      <input type="number" id="fechadura2">
+      <button onclick="checkFechadura2()">Verificar</button>
+      <p id="result2"></p>
+    </div>
+    <div class="enigma">
+      <p>Fechadura 3: Se você multiplicar um número por 9 e o resultado for 81, qual é o número?</p>
+      <input type="number" id="fechadura3">
+      <button onclick="checkFechadura3()">Verificar</button>
+      <p id="result3"></p>
+    </div>
+    <div class="enigma">
+      <p>Fechadura 4: Divida 144 por um número para obter 12. Qual é o número?</p>
+      <input type="number" id="fechadura4">
+      <button onclick="checkFechadura4()">Verificar</button>
+      <p id="result4"></p>
+    </div>
+    <button onclick="nextRoom('sala1', 'sala2')" id="nextRoom1" style="display:none;">Próxima Sala</button>
+  </div>
+
+  <div id="sala2" class="sala" style="display:none;">
+    <h2>Sala 2: O Salão dos Enigmas</h2>
+    <p>Resolva os seguintes enigmas para revelar o código escondido.</p>
+    <div class="enigma">
+      <p>Eu sou um número que, ao ser dividido por 6, dá 5 como resultado. Qual é o dividendo?</p>
+      <input type="number" id="enigma1">
+      <button onclick="checkEnigma1()">Verificar</button>
+      <p id="result5"></p>
+    </div>
+    <div class="enigma">
+      <p>Se o produto de dois números é 48 e um dos fatores é 6, qual é o outro fator?</p>
+      <input type="number" id="enigma2">
+      <button onclick="checkEnigma2()">Verificar</button>
+      <p id="result6"></p>
+    </div>
+    <div class="enigma">
+      <p>Quais são os fatores de 12 cuja soma é 7?</p>
+      <input type="number" id="enigma3-1"> e <input type="number" id="enigma3-2">
+      <button onclick="checkEnigma3()">Verificar</button>
+      <p id="result7"></p>
+    </div>
+    <button onclick="nextRoom('sala2', 'sala3')" id="nextRoom2" style="display:none;">Próxima Sala</button>
+  </div>
+
+  <div id="sala3" class="sala" style="display:none;">
+    <h2>Sala 3: A Biblioteca dos Mistérios</h2>
+    <p>Resolva a missão final usando os conhecimentos adquiridos.</p>
+    <div class="enigma">
+      <p>O código final é uma combinação de dois números. O primeiro número é a soma de 23 e 47. O segundo número é o resultado de 88 subtraído por 19.</p>
+      <input type="number" id="codigo1"> e <input type="number" id="codigo2">
+      <button onclick="checkFinalCode()">Verificar</button>
+      <p id="result8"></p>
+    </div>
+  </div>
+
+</div>
+
+<script src="js.js"></script>
+</body>
+</html>
