@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Paridade - Exercício</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="author" content="Marco Martins">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e0ebdb"><!--#2f4550-->
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+<h1>&Eacute; poss&iacute;vel deixar todos os quadrados rosa?</h1>
+
+<div id="app">
+  <div class="container">
+    <div class="third" v-for="i in 9">
+      <div class="flip-card">
+        <div class="flip-card-inner" :id="i" @click="flip(i)">
+          <div class="flip-card-front"><h2>{{i}}</h2></div>
+          <div class="flip-card-back"><h2>{{i}}</h2></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="vue.js"></script>
+</body>
+</html>
