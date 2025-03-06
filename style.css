@@ -2,7 +2,7 @@ body{
   display:flex;flex-direction:column;
   margin:10%;min-height:100vh
 }
-input,p{
+input,p,a{
   width:80%;max-width:400px;margin:15px auto;padding:15px 20px;
   font-size:1.2rem;line-height:1.2rem;text-align:center
 }
