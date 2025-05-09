@@ -5,8 +5,8 @@ export default function updateSums(board, enabled) {
   function colorize(td, sum) {
     if (!td) return;
     td.textContent = sum || '';
-    if (sum === 45) td.style.color = "green"
-    else if (sum > 45) td.style.color = "red"
+    if (sum === 45) td.style.color = "var(--green)"
+    else if (sum > 45) td.style.color = "var(--red)"
     else td.style.color = "var(--sum-color)"
   }
 
@@ -47,7 +47,7 @@ export default function updateSums(board, enabled) {
           td.appendChild(overlay);
         }
         overlay.textContent = sum || '';
-        overlay.style.color = sum === 45 ? "green" : sum > 45 ? "red" : "var(--box-sum-color)";
+        overlay.style.color = sum === 45 ? "var(--green)" : sum > 45 ? "var(--red)" : "var(--box-sum-color)";
       }
     }
   }

@@ -15,15 +15,18 @@
 </head>
 <body>
   <h2 style="text-align:center">Sudoku Puzzle</h2>
-  <select id="dificulty">
-    <option value="veryeasy">★</option>
-    <option value="easy">★★</option>
-    <option value="medium" selected>★★★</option>
-    <option value="veryhard">★★★★</option>
-    <option value="veryhard">★★★★★</option>
-  </select>
   <div id="sudoku-container"></div>
-  <h4>Precisa de ajuda?</h4>
+  <h4>Opções</h4>
+  <label>
+    Dificuldade
+    <select id="dificulty">
+      <option value="veryeasy">★</option>
+      <option value="easy">★★</option>
+      <option value="medium" selected>★★★</option>
+      <option value="veryhard">★★★★</option>
+      <option value="veryhard">★★★★★</option>
+    </select>
+  </label>
   <label class="checkbox">
     Destacar posições impossíveis
     <input type="checkbox">
