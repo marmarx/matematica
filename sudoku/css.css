@@ -1,0 +1,118 @@
+@import './colors.css';
+@import './checkbox.css';
+
+*{
+  font-family: 'Times New Roman', Times, serif;
+  color: var(--text);
+  transition: background-color .7s
+}
+body{
+  color: var(--text);
+  background: var(--back);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem
+}
+
+h2{margin-bottom:0}
+h4{margin:.5em 0}
+
+#sudoku-container{margin-left:44px}
+table{
+  border-collapse: collapse;
+  margin: 20px auto;
+}
+td{
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid var(--border);
+}
+td.top{border-top:2px solid var(--border-bold)}
+td.bottom{border-bottom: 2px solid var(--border-bold)}
+td.left{border-left: 2px solid var(--border-bold)}
+td.right{border-right: 2px solid var(--border-bold)}
+.fixed{font-weight: bold}
+.bold-border{border-width: 2px}
+
+.cell{
+  width: 90%;
+  height: 90%;
+  font-size: 1em;
+  text-align: center;
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.cell::-ms-expand{display:none}
+
+select{background:none}
+option{background: var(--back)}
+#dificulty,label{
+  width: 80%;
+  max-width: 350px;
+  padding: .5em;
+}
+#dificulty{
+  margin: 1.4em 0 2.5em;
+  height: 40px;
+  text-align: center
+}
+label{
+  font-size: .8em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center
+}
+
+td {position: relative}
+.highlight{background-color: var(--highlight)}
+td.row-sum, td.col-sum, .box-sum{
+  text-align: center;
+  border: none;
+  color: var(--sum-color);
+  font-weight: bold;
+  /* opacity: 0.4; */
+}
+.box-sum {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
+  /* opacity: 0.12; */
+  pointer-events: none;
+  font-weight: bold;
+  color: var(--box-sum-color);
+  text-align: center;
+}
+.dn{opacity:0!important}
+
+button {
+  margin-top:1.5em;
+  background-color: var(--button);
+  border: none;
+  /* border: 1px solid var(--text); */
+  padding: 12px 25px;
+  font-size: .8em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+button:active, button:hover {background-color: var(--button-hover)}
+button:focus,button:hover {outline:none}
+button span{
+  color:var(--white);
+  mix-blend-mode: color-dodge;
+}
+
+.flex{
+  width: 50%;
+  max-width: 480px;
+  display: flex;
+  justify-content: space-evenly;
+}

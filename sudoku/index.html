@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sudoku Puzzle</title>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="author" content="Marco Martins">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2f4550">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora&family=Open+Sans&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css.css">
+<script defer type="module" src="js.js"></script>
+</head>
+<body>
+  <h2 style="text-align:center">Sudoku Puzzle</h2>
+  <select id="dificulty">
+    <option value="veryeasy">★</option>
+    <option value="easy">★★</option>
+    <option value="medium" selected>★★★</option>
+    <option value="veryhard">★★★★</option>
+    <option value="veryhard">★★★★★</option>
+  </select>
+  <div id="sudoku-container"></div>
+  <h4>Precisa de ajuda?</h4>
+  <label class="checkbox">
+    Destacar posições impossíveis
+    <input type="checkbox">
+    <span class="checkmark"></span>
+  </label>
+  <label class="checkbox">
+    Remover números repetidos
+    <input type="checkbox">
+    <span class="checkmark"></span>
+  </label>
+  <label class="checkbox">
+    Mostrar somatórias
+    <input type="checkbox">
+    <span class="checkmark"></span>
+  </label>
+  <div class="flex">
+    <button id="undoBtn"><span>Desfazer</span></button>
+    <button id="reset"><span>Reiniciar Jogo</span></button>
+  </div>
+</body>
+</html>
