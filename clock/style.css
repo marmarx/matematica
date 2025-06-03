@@ -1,0 +1,78 @@
+:root{--color:#2f4550; --back-color: rgba(14, 109, 192, 0.4); --black:#181818; --white:#f1f1f1 ; --period: 10s}
+@property --rotate-angle { syntax: "<angle>"; initial-value: 180deg; inherits: false }
+
+body {margin: 0; padding: 0; display: flex; flex-direction: column;}
+.clock {
+  position: relative;
+  width: 80vw; height: 80vw;
+  max-width: 800px; max-height: 800px;
+  margin: 50px auto; border: .8em solid var(--color); border-radius: 50%;
+  background: var(--back-color)
+}
+.clock-face {position: relative; top: 5%; left: 5%; width: 90%; height: 90%}
+.center-point {
+  --diameter: .8em;
+  position: absolute; top: calc(50% - var(--diameter) / 2); left: calc(50% - var(--diameter) / 2);
+  width: var(--diameter); height: var(--diameter);
+  background-color: var(--color);
+  border-radius: 50%;
+  display: flex; align-items: center;
+}
+.hands{margin:0 1px}
+.hand {
+  width: 0; height: 8em;
+  --size: .4em;
+  position: absolute; margin: 0 auto;
+  border: calc(var(--size)/2) solid var(--color);
+  --rotate-angle: 180deg;
+  transform-origin: top center; transform: rotate(var(--rotate-angle)) translateX(calc(-1 * var(--size) / 10));
+  animation: rotate var(--speed) linear infinite;
+}
+.paused .hand {animation-play-state: paused !important}
+
+.hand:before{
+  content:'';
+  position: absolute; top: 100%; left: calc(-1 * var(--size));
+  border-left: var(--size) solid transparent;
+  border-right: var(--size) solid transparent;
+  border-top: var(--size) solid var(--color);
+
+}
+.hour-hand {height: 5em; --size:.7em} .second-hand {opacity: .8}
+
+.hour-hand {--speed: calc(var(--period) * 12)}
+.minute-hand {--speed: var(--period)}
+.second-hand {--speed: calc(var(--period) / 60); display: none}
+
+@keyframes rotate {
+  0%{--rotate-angle: -180deg}
+  100%{--rotate-angle: 180deg}
+}
+
+.clock-numbers { position: absolute; width: 100%; height: 100% }
+.number {
+  font-size: 1.8em;
+  position: absolute; top: 50%; left: 50%;
+  --r: 6em;
+  --angle: -90deg;
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--r));
+}
+.number span { transform: rotate(calc(-1 * var(--angle))); display: inline-block }
+.number.black {color: var(--black)}
+.number.white {color: var(--white)!important}
+
+.number-12 {--angle: -90deg}
+.number-1  {--angle: -60deg}
+.number-2  {--angle: -30deg}
+.number-3  {--angle: 0}
+.number-4  {--angle: 30deg}
+.number-5  {--angle: 60deg}
+.number-6  {--angle: 90deg}
+.number-7  {--angle: 120deg}
+.number-8  {--angle: 150deg}
+.number-9  {--angle: 180deg}
+.number-10 {--angle: 210deg}
+.number-11 {--angle: 240deg}
+
+input,button{position: relative; width: 80vw; max-width: 800px; margin: 0 auto 50px}
+input{display: none;}
