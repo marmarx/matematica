@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deslizante Dinâmico</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Quebra-cabeça Deslizante</h1>
+  <div class="info">
+    <div>Movimentos: <span id="move-count">0</span></div>
+    <div>Melhor estimativa: <span id="best-move">0</span></div>
+    <div id="win-message" class="hidden">Você venceu!</div>
+  </div>
+  <div id="game-board"></div>
+  <div class="info">
+    <label>Linhas: <input id="rows" type="number" min="2" max="10" value="4" /></label>
+    <label>Colunas: <input id="cols" type="number" min="2" max="10" value="4" /></label>
+    <button id="shuffle-btn">Embaralhar</button>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

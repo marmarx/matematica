@@ -1,0 +1,40 @@
+:root{
+  --black:#171717; --black-soft:#222222;
+  --white:#fff; --white-soft:#f8f8f8;
+  --red:#fc000027; --green:#3ae65f;
+  --black-gray: #00000094;
+  --white-gray: #fff;
+  --dark-gray: #7e7e7e88; --gray: #7e7e7e66; --light-gray: #7e7e7e44;
+  --button:hsla(122, 39%, 49%, .8); --button-hover:hsla(122, 39%, 49%, .9); --button-text: var(--white);
+}
+
+:root{
+  --text: var(--black);
+  --back: var(--white-soft);
+  --highlight: #dd00002d;
+
+  --border: var(--black-soft);
+  --border-bold: var(--black);
+  --sum-color: var(--gray);
+  --box-sum-color: var(--light-gray);
+
+  --grey: var(--gray);
+  --light-grey: var(--light-gray)
+}
+
+@media (prefers-color-scheme:dark){
+  :root{
+  --text: var(--white);
+  --back: var(--black-soft);
+  --highlight: #ff343452;
+
+  --border: var(--white-soft);
+  --border-bold: var(--white);
+
+  --sum-color: var(--dark-gray);
+  --box-sum-color: var(--gray);
+
+  --grey: var(--dark-gray);
+  --light-grey: var(--gray)
+  }
+}

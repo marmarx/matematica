@@ -1,0 +1,73 @@
+@import './colors.css';
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: var(--back);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 10px;
+  color: var(--text);
+}
+
+#game-board {
+  position: relative;
+  background-color: var(--grey);
+  border-radius: 8px;
+  margin-top: 20px;
+  touch-action: none;
+  padding: 2px;
+}
+
+.tile {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  user-select: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin: 2px;
+}
+.empty { display: none}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {background-color: var(--button-hover)}
+
+.tile, button{background-color: var(--button); color: var(--button-text);}
+
+#win-message {
+  font-size: 1.5rem;
+  color: var(--green);
+  font-weight: bold;
+}
+.hidden {display: none}
+
+input[type="number"] {
+  width: 50px;
+  padding: 4px;
+  margin: 0 5px;
+  font-size: 1rem;
+  text-align: center;
+}
