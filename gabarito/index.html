@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <title>Gabarito de Respostas</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="author" content="Marco Martins">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e0ebdb"><!--#2f4550-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script defer type="text/javascript" src="vue.global.js"></script>
+
+  <style>
+    :root{ --black: #333; --mask-width: 38ch; --flex-direction: column; --ul-col-num: 1; --scale: 1; gap: 0 }
+    * { border: 0 }
+    body { margin: 0; }
+    h1 { text-align: center; margin: 0 0 .6em 0 }
+    b, .bold { font-weight: bold; }
+
+    .options {
+      position: fixed; right: 0;
+      display: flex; flex-direction: column; 
+      padding: 1.5em;
+      text-align: right; gap: .5em;
+      background: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 999
+    }
+    input, select, textarea { width: 200px; padding: .4em .8em; border: 1px solid var(--black); }
+    textarea { min-height: 300px; width: auto }
+
+    .masks {
+      display: grid;  grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); grid-auto-flow: row;
+      padding: 2em; gap: 2em; 
+      background: #fff; transform: scale(var(--scale))
+    }
+    .mask { width: max(45ch, var(--mask-width)); display: flex; flex-direction: var(--flex-direction); gap: .5em; }
+    .w50 { width: 50% }
+    .head { display: grid; gap: .5em; }
+    ul { column-count: var(--ul-col-num); column-gap: 1em; list-style-position: inside }
+    li.two::marker { content: '- ' }
+    li.two { margin-left: 10px }
+
+    .escola, .test, .value, .note, .student_info, .instructions, .fill, table { border: 2px solid var(--black); width: auto }
+    .escola, .instruc_title, .fill_title { background: hsl(from var(--black) h s l / .2); padding: .5em }
+    .escola, .instruc_title, .fill_title, .value { text-align: center; align-content: center }
+    .note { align-content: center; padding-left: .5em }
+        
+    .board { display: grid; grid-template-columns: 1fr 1fr; gap: .5em }
+    .test { grid-area: 1 / 1 / span 2 / span 1; text-align: center; padding: .5em; gap: .5em }
+
+    .student_info { display: grid; gap: .5em; padding: .5em }
+    .student_info * { line-height: 1.4em; }
+    .student { display: inline-flex }
+    .student_name { border-bottom: 1px solid var(--black); width: -webkit-fill-available; margin-left: 1em }
+
+    .class_date { display: flex; justify-content: space-between; padding-top: .5em; gap: var(--gap) }
+
+    .table-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: .5em }
+    table{ border-collapse: collapse; }
+    table, tbody { position: relative; padding: 0 .5em }
+
+    tbody::before, tbody::after, table::before, table::after
+    { content: ''; width: 10px; height: 10px; position: absolute; background: #000; z-index: 999 }
+    tbody::before, tbody::after  { top: 0 }
+    table::before, table::after  { bottom: 0 }
+    tbody::before, table::before { left: 0 }
+    tbody::after,  table::after  { right: 0 }
+    table::before { visibility: hidden }
+
+    tbody.inv::before, tbody.inv::after,
+    table.inv::before, table.inv::after { visibility: hidden }
+
+    tr, td { margin: 0; padding: .4em .5em; border: 0 }
+    tr { max-height: 35px; position: relative }
+    tr:nth-child(even) { background: hsl(from var(--black) h s 80% ); border-spacing: 0 }
+
+    td:nth-child(1) { padding-left: 1em }
+    td:nth-last-child(1) { padding-right: 1em }
+
+
+    .question_text { white-space: nowrap }
+    .center_num { display: flex; justify-content: center; }
+    .circle {
+      width: 5mm; aspect-ratio: 1/1;
+      border: 1px solid var(--black); border-radius: 50%; margin: auto;
+      display: flex; justify-content: center;
+    }
+
+    .example { border: 0; width: 80%!important; margin: auto }
+    .filled { background: black; position: relative; }
+    .filled:after { 
+      content: '✓';
+      position: absolute; left: 0px; bottom: -3px;      
+      font-size: 2em; color: hsl(from var(--black) h s 50% );
+    }
+
+    .invisible > * { visibility: hidden; }
+
+    @page { break-before: page; break-inside: avoid }
+    @media print {
+      .options { display: none }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+
+</head>
+<body>
+
+<div id="app">
+  <div class="options">
+    <h1>Opções</h1>
+    <label>
+      Nome da escola:
+      <input type="text" v-model="scholl_name" placeholder="Nome da escola"/>
+    </label>
+
+    <label>
+      Nome d@ professor@:
+      <input type="text" v-model="teacher_name" placeholder="Nome d@ professor@"/>
+    </label>
+
+    <label>
+      Título da prova:
+      <input type="text" v-model="test_title" placeholder="Título da prova"/>
+    </label>
+
+    <label>
+      Valor da prova:
+      <input type="text" v-model="test_value" placeholder="Valor da prova"/>
+    </label>
+
+    <label>
+      Gabaritos por página:
+      <input type="number" v-model="num_of_masks" min="1" step="1" placeholder="Gabaritos por página"/>
+    </label>
+
+    <label>
+      Número de questões:
+      <input type="number" v-model="num_of_questions" min="1" step="1" placeholder="Número de questões"/>
+    </label>
+
+    <label>
+      Número de colunas:
+      <input type="number" v-model="num_of_columns" min="1" step="1" placeholder="Número de colunas"/>
+    </label>
+
+    <label>
+      Número de opções:
+      <input type="number" v-model="num_of_answers" min="2" step="1" placeholder="Número de opções"/>
+    </label>
+
+    <label>
+      Texto das questões:
+      <input type="text" v-model="question_text" placeholder="Texto das questões"/>
+    </label>
+
+    <label>
+      Orientação do gabarito:
+      <select v-model="mask_orientation">
+        <option value="column">Horizontal</option>
+        <option value="row">Vertical</option>
+      </select>
+    </label>
+
+    <label>
+      Escala do gabarito:
+      <input type="number" v-model="scale" min="0.1" max="2" step="0.1" placeholder="Escala do gabarito"/>
+    </label>
+
+    <label style="text-align: center;">Instruções ao aluno:</label>
+    <textarea v-model="instructions"></textarea>
+
+  </div>
+
+  <div class="masks">
+    <div v-for="k in num_of_masks" :key="k" class="mask">
+
+      <div class="head">
+        <div class="escola"><b>{{ scholl_name }}</b></div>
+        <div class="board">
+          <div class="test">
+            <div style="padding-bottom: .5em"><b>{{ test_title }}</b></div>
+            <div>{{ teacher_name }}</div>
+          </div>
+          <div class="value"><b>VALOR: </b>{{ test_value }}</div>
+          <div class="note"><b>NOTA:</b></div>
+        </div>
+
+        <div class="student_info">
+          <div class="student">
+            <div class="student_head"><b>Nome:</b></div>
+            <div class="student_name"></div>
+          </div>
+          <div class="student">
+            <div class="student_head invisible"><b>Nome:</b></div>
+            <div class="student_name"></div>
+          </div>
+          <div class="class_date bold">
+            <div class="class">Turma: _______</div>
+            <div class="date">Data: _______/_______/_______</div>
+          </div>
+        </div>
+
+        <div class="instructions">
+          <div class="instruc_title"><b>INSTRUÇÕES</b></div>
+          <div>
+            <ul>
+              <li v-for="i in instruct">
+                <span v-if="i.length === 1" v-html="i"></span>
+
+                <template v-else>
+                  <span v-else v-html="i[0]"></span>
+                  <li class="two" v-for="j in i.length - 1" v-html="i[j]"></li>
+                </template>
+                
+              </li>
+            </ul>
+            <!-- <ul>
+              <li>Coloque seu nome</li>
+              <li>Marque apenas uma alternativa por questão</li>
+              <li>A avaliação é <b>sem</b> consulta</li>
+              <li>Se colar, a provara será zerada</li>
+              <li>Em cima da mesa:
+                <li class="two">1 folha para cálculos</li>
+                <li class="two">Lapís e borracha</li>
+                <li class="two">Caneta <b>azul</b> ou <b>preta</b></li>
+              </li>
+              <li>Não é permitido celular ou calculadora</li>
+            </ul> -->
+          </div>
+        </div>
+
+        <div class="fill">
+          <div class="fill_title"><b>PREENCHIMENTO</b></div>
+          <table class="example inv">
+            <tbody class="inv">
+              <tr>
+                <td v-for="r in num_of_answers" :key="r">
+                  <div class="circle" :class="{ filled: r === 2 }">{{ getLetter(r) }}</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+     <div class="table-grid">
+        <table v-for="c in num_of_columns" :key="c">
+          <tr v-for="q in maxQuestions" :key="q">
+            
+            <template v-if="q <= num_of_qs[c - 1]">
+              <td class="question_text bold">
+                <span v-if="question_text">{{ question_text }}</span>
+                <span :class="{ center_num: !question_text }">
+                  {{ get_number(c - 1, q - 1) }}
+                </span>
+              </td>
+
+              <td v-for="a in num_of_answers" :key="a">
+                <div class="circle">{{ getLetter(a) }}</div>
+              </td>
+            </template>
+
+            <!-- Invisible row -->
+            <template v-else-if="mask_orientation === 'column'">
+              <td :colspan="1 + num_of_answers" class="invisible"><span>Invisible row :)</span></td>
+            </template>
+
+          </tr>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script>
+  const { createApp, ref } = Vue
+
+  createApp({
+    data: () => ({
+      scholl_name: 'EMEF PROF. LUIZ BAPTISTA',
+      test_title: 'PROVA DE MATEMÁTICA',
+      test_value: '10,0 pontos',
+      teacher_name: 'Prof. Renata Jovanini',
+      num_of_masks: 4,
+      num_of_questions: 10,
+      num_of_answers: 4,
+      num_of_columns: 1,
+      question_text: 'Questão ',
+      mask_orientation: 'column',
+      scale: 1,
+      instructions: `• Coloque seu nome\n• Marque apenas uma alternativa por questão\n• A avaliação é *sem* consulta\n• Se colar, a provara será zerada\n• Em cima da mesa:\n- 1 folha para cálculos\n- Lápis e borracha\n- Caneta *azul* ou *preta*\n• Não é permitido celular ou calculadora\n`
+    }),
+    methods: {
+      getLetter(num) { return String.fromCharCode(64 + num)},
+      divideInt(total, n) {
+        const base = Math.floor(total / n)
+        const rest = total % n
+        return Array.from({ length: n }, (_, i) => i < rest ? base + 1 : base)
+      },
+      get_number(row, col) { 
+        const offset = this.num_of_qs.slice(0, row).reduce((sum, v) => sum + v, 0)
+        return offset + col + 1
+      },
+      boldify(str){
+        let indexes = [ ...str.matchAll(/_/g) ].map(match => match.index)
+
+        for(let i = indexes.length - 1; i > -1; i--) {
+          if (i % 2 == 0) {str = str.substring(0, indexes[i]) + '<i>' + str.substring(indexes[i] + 1)}
+          else {str = str.substring(0, indexes[i]) + '</i>' + str.substring(indexes[i] + 1)}
+        }
+
+        indexes = [ ...str.matchAll(/\*/g) ].map(match => match.index);
+
+        for(let i = indexes.length - 1; i > -1; i--) {
+          if (i % 2 == 0 ){str = str.substring(0, indexes[i]) + '<b>' + str.substring(indexes[i] + 1)}
+          else{str = str.substring(0, indexes[i]) + '</b>' + str.substring(indexes[i] + 1)}
+        }
+
+        return str
+      }
+    },
+    computed: {
+      num_of_qs() { return this.divideInt(this.num_of_questions, this.num_of_columns) },
+      mask_width() { return `${(this.question_text.length + this.num_of_answers * 7 + 2) * this.num_of_columns}ch` },
+      maxQuestions() { return Math.max(...this.num_of_qs) },
+      ul_col() { return this.mask_orientation === 'row' ? 1 : this.num_of_columns },
+      gap() { return this.mask_orientation === 'row' ? '1em' : 0 },
+      instruct() { 
+        return this.boldify(this.instructions)
+          .trim()
+          .split('• ')
+          .map(e => e.split('- '))
+          .splice(1)
+      }
+    },
+    watch: {
+      mask_orientation(newVal) { document.documentElement.style.setProperty('--flex-direction', newVal) },
+      mask_width(newVal) { document.documentElement.style.setProperty('--mask-width', newVal) },
+      ul_col(newVal) { document.documentElement.style.setProperty('--ul-col-num', newVal) },
+      scale(newVal) { document.documentElement.style.setProperty('--scale', newVal) },
+      gap(newVal) { document.documentElement.style.setProperty('--gap', newVal) },
+    }
+  })
+  .mount('#app')
+</script>
+
+</body>
+</html>
