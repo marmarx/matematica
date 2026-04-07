@@ -1,4 +1,5 @@
 const openMenu = (el) => { el.classList.toggle("change"); document.getElementById('options').classList.toggle('show-options') }
+setTimeout(() => openMenu(document.getElementById('options-open')), 500)
 
 const { createApp, ref } = Vue
 
@@ -15,7 +16,7 @@ createApp({
     question_text: 'Questão ',
     mask_orientation: 'column',
     scale: 1,
-    instructions: `• Coloque seu nome\n• Marque apenas uma alternativa por questão\n• A avaliação é *sem* consulta\n• Se colar, a prova será _zerada_\n• Em cima da mesa:\n- 1 folha para cálculos\n- Lápis e borracha\n- Caneta *azul* ou *preta*\n• Não é permitido celular ou calculadora\n`,
+    instructions: `• Coloque seu nome\n• Marque apenas uma alternativa por questão\n• A avaliação é *sem* consulta\n• Se colar, a prova será _zerada_\n• Em cima da mesa apenas:\n- 1 folha para cálculos\n- Lápis e borracha\n- Caneta *azul* ou *preta*\n• Não é permitido celular ou calculadora\n`,
     filled_letter: 2
   }),
   methods: {
