@@ -1,6 +1,7 @@
-:root{ --black: #333; --mask-width: 38ch; --flex-direction: column; --ul-col-num: 1; --scale: 1; gap: 0 }
+:root{ --black: #333; --mask-width: 38ch; --flex-direction: column; --ul-col-num: 1; --scale: 1; gap: 0; --font-size: '16px' }
 * { border: 0 }
 
+html { font-size: var(--font-size) }
 body { margin: 0; }
 h1 { text-align: center; margin: 0 0 .6em 0 }
 b, .bold { font-weight: bold; }
