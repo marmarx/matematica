@@ -51,7 +51,7 @@ createApp({
   },
   computed: {
     num_of_qs() { return this.divideInt(this.num_of_questions, this.num_of_columns) },
-    mask_width() { return `${(this.question_text.length + this.num_of_answers * 7 + 2) * this.num_of_columns}ch` },
+    mask_width() { return `${(this.question_text.length + this.num_of_answers * 5 + 2) * this.num_of_columns}ch` },
     maxQuestions() { return Math.max(...this.num_of_qs) },
     ul_col() { return this.mask_orientation === 'row' ? 1 : this.num_of_columns },
     gap() { return this.mask_orientation === 'row' ? '1em' : 0 },
