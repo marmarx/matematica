@@ -160,6 +160,9 @@
       <label>Número de opções:</label>
       <input type="number" v-model="num_of_answers" min="2" step="1" placeholder="Número de opções"/>
 
+      <label>Tamanho do texto:</label>
+      <input type="number" v-model="font_size" min="10" step="1" placeholder="Tamanho do texto"/>
+
       <label>Exemplo preenchido:</label>
       <select v-model="filled_letter">
         <option v-for="r in num_of_answers" :value="r" :key="r">{{ getLetter(r) }}</option>
