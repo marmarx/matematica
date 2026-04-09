@@ -16,9 +16,9 @@ createApp({
     question_text: 'Questão ',
     mask_orientation: 'column',
     scale: 1,
-    instructions: `• Coloque seu nome\n• Marque apenas uma alternativa por questão\n• A avaliação é *sem* consulta\n• Se colar, a prova será _zerada_\n• Em cima da mesa apenas:\n- 1 folha para cálculos\n- Lápis e borracha\n- Caneta *azul* ou *preta*\n• Não é permitido celular ou calculadora\n`,
+    instructions: `• Coloque seu nome\n• Marque uma alternativa por questão\n• A avaliação é *sem* consulta\n• Se colar, a prova será _zerada_\n• Em cima da mesa apenas:\n- 1 folha para cálculos\n- Lápis e borracha\n- Caneta *azul* ou *preta*\n• Não é permitido celular ou calculadora\n`,
     filled_letter: 2,
-    font_size: 16
+    font_size: 20
   }),
   methods: {
     getLetter(num) { return String.fromCharCode(64 + num) },
