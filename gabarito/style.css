@@ -1,4 +1,4 @@
-:root{ --black: #333; --mask-width: 38ch; --flex-direction: column; --ul-col-num: 1; --scale: 1; gap: 0; --font-size: '16px' }
+:root{ --black: #333; --mask-width: 38ch; --flex-direction: column; --ul-col-num: 1; --scale: 1; gap: 0; --font-size: '20px' }
 * { border: 0 }
 
 html { font-size: var(--font-size) }
@@ -52,7 +52,7 @@ label { text-align: center; align-content: center; }
   padding: 2em; gap: 2em; 
   background: #fff; 
 }
-.mask { width: max(50ch, var(--mask-width)); display: flex; flex-direction: var(--flex-direction); gap: .5em; transform: scale(var(--scale)) }
+.mask { width: max(40ch, var(--mask-width)); display: flex; flex-direction: var(--flex-direction); gap: .5em; transform: scale(var(--scale)) }
 .w50 { width: 50% }
 .head { display: grid; gap: .5em; }
 ul { column-count: var(--ul-col-num); column-gap: 1em; list-style-position: inside; padding: 0 1em }
@@ -90,7 +90,7 @@ table::before { visibility: hidden }
 tbody.inv::before, tbody.inv::after,
 table.inv::before, table.inv::after { visibility: hidden }
 
-tr, td { margin: 0; padding: .4em .5em; border: 0 }
+tr, td { margin: 0; padding: .3em; border: 0 }
 tr { max-height: 35px; position: relative }
 tr:nth-child(even) { background: hsl(from var(--black) h s 80% ); border-spacing: 0 }
 
@@ -101,7 +101,7 @@ td:nth-last-child(1) { padding-right: 1em }
 .question_text { white-space: nowrap }
 .center_num { display: flex; justify-content: center; }
 .circle {
-  width: 5mm; aspect-ratio: 1/1;
+  width: var(--font-size); height: var(--font-size); aspect-ratio: 1/1;
   border: 1px solid var(--black); border-radius: 50%; margin: auto;
   display: flex; justify-content: center; align-items: center;
 }
