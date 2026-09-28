@@ -10,10 +10,11 @@
 <style>
 :root { --opacity: 0.4 }
 body {
-  display: grid; justify-content: center;
+  display: flex; justify-content: center;
   padding-block: 3em;
   counter-reset: h3-counter;
 }
+#app { padding: 0 0 0 3rem; width: calc(100% - 3rem); max-width: 900px }
 h1 { text-align: center }
 h3:nth-of-type(n+2) { margin-top: 2.5rem }
 h3::before {
