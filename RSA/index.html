@@ -1,0 +1,321 @@
+<html lang="pt-BR">
+<head>
+<title>Criptografia RSA</title>
+<meta name="author" content="Marco Martins">
+<meta name="description" content="Um exemplo de Criptografia RSA para entender os conceitos matemáticos envolvidos">
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<style>
+:root { --opacity: 0.4 }
+body {
+  display: grid; justify-content: center;
+  padding-block: 3em;
+  counter-reset: h3-counter;
+}
+h1 { text-align: center }
+h3:nth-of-type(n+2) { margin-top: 2.5rem }
+h3::before {
+  counter-increment: h3-counter;
+  content: counter(h3-counter) "";
+  opacity: var(--opacity);
+  position: absolute;
+  font-size: 2rem;
+  margin: -4px 0 0 -2.5rem;
+  text-align: right;
+  width: 2ch;
+}
+.red { color: red }
+table { text-align: center; border-collapse: collapse }
+td { border: 1px solid rgba(0, 0, 0, var(--opacity)); padding: 3px }
+textarea { width: 100%; max-width: 600px; min-height: 5lh }
+input, textarea { padding: .6ch 1ch; min-width: 25ch }
+</style>
+</head>
+
+<body>
+<div id="app">
+  <h1>Criptogragia RSA</h1>
+
+  <h3>Escolha dois números primos</h3>
+  <label>
+    <p>Número primo p:</p>
+    <input type="number" v-model="p_user" min="1" step="1" placeholder="Número primo p" />
+    <p v-if="p_error" class="red">{{ p_error }}</p>
+  </label>
+  <label>
+    <p>Número primo q:</p>
+    <input type="number" v-model="q_user" min="1" step="1" placeholder="Número primo q" />
+    <p v-if="q_error" class="red">{{ q_error }}</p>
+  </label>
+
+  <h3>Calcule o módulo de n</h3>
+  <p>n = p × q = {{ p }} × {{ q }}</p>
+  <p><b>n = {{n}}</b></p>
+
+  <h3>Cálculo da Função Totiente de Euler (phi)</h3>
+  <p>phi = φ(n) = (p - 1) × (q - 1) = ({{ p }} - 1) × ({{ q }} - 1) = {{p - 1}} × {{q - 1}}</p>
+  <p><b>phi = {{ euler }}</b></p>
+
+  <h3>Escolha o expoente público (𝓮)</h3>
+  <label>
+    <p>Deve ser maior que 1, menor que phi = {{ euler }} e coprimo a phi = {{ euler }}, ou seja, o máximo divisor comum entre 𝓮 e {{ euler }} deve ser 1</p>
+    <input type="number" v-model="e_user" min="2" step="1" :max="euler" placeholder="Chave pública 𝓮" />
+    <p v-if="e_error" class="red">{{ e_error }}</p>
+  </label>
+  <p>A <b>chave pública</b> a ser compartilhada é dada por n e 𝓮:</p>
+  <p><b>CPU(n = {{n}}, 𝓮 = {{e}})</b></p>
+
+  <h3>Cálculo do expoente privado (d)</h3>
+  <p>Encontre o valor d tal que (𝓮 × d) (mod phi) = 1, ou seja, {{e}}d (mod {{euler}}) = 1</p>
+  <p>Por tentativa e erro, encontramos que d = {{d}}</p>
+  <p>A <b>chave privada</b> não compartilhada é dada por n e d:</p>
+  <p><b>CPV(n = {{n}}, d = {{d}})</b></p>
+
+  <h3>Defina uma tabela de precodificação</h3>
+  <p>Esta tabela serve para transformar caracteres em números com iguais números de algarismos</p>
+  <p>Afim de evitar duplicidades, não utilizamos o algarismo 0 na tabela, dessa maneira, precisamos utilizar 3 algarismos, já que a tabela tem {{ Object.keys(tableL.num).length }} caracteres</p>
+  <table>
+    <tr>
+      <td v-for="(item, key) in tableX">{{item}}</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <td v-for="(item, key) in tableX">{{key}}</td>
+      <td>...</td>
+    </tr>
+  </table>
+
+  <h3>Escreva a mensagem</h3>
+  <textarea v-model="message"></textarea>
+
+  <h3>Transforme a mensagem em números</h3>
+  <p>Utilizando a tabela de conversão, converta cada caracter da mensagem escrita em números</p>
+  <p><b>{{ codificada }}</b></p>
+
+  <h3>Quebre a mensagem numerada em blocos</h3>
+  <p>Os blocos não podem inicar com 0 e devem ser menores que n = {{n}}</p>
+  <p><b>{{ blocos.join(', ') }}</b></p>
+
+  <h3>Codifique a mensagem</h3>
+  <p>Usando a chave pública CPU(n = {{n}}, 𝓮 = {{e}}), usamos a fórmula <b>C = M<sup>𝓮</sup> (mod n) = M<sup>{{e}}</sup> (mod {{n}})</b></p>
+  <p><b>{{ cifrada.join(', ') }}</b></p>
+
+  <h3>Transmita a mensagem codificada</h3>
+  <p>Envie a mensagem codificada de um dispositivo para o outro.</p>
+  <p>Isso é feito de diversos métodos, listei aqui apenas para exemplificar :)</p>
+
+  <h3>Decodifique a mensagem</h3>
+  <p>Usando a chave privada CPV(n = {{n}}, d = {{d}}), usamos a fórmula <b>M = C<sup>d</sup> (mod n) = C<sup>{{d}}</sup> (mod {{n}})</b></p>
+  <p><b>{{ decifrada.join(', ') }}</b></p>
+
+  <h3>Junte os blocos decodificados</h3>
+  <p>Unindo todos os blocos decodificados em uma única sequência numérica</p>
+  <p><b>{{ decodedNum }}</b></p>
+
+  <h3>Quebre a sequência numérica decodificada</h3>
+  <p>Quebramos a sequência numérica em blocos de até 3 algarismos</p>
+  <p><b>{{ decodedBlocks.join(', ') }}</b></p>
+
+  <h3>Transcreva a mensagem para texto</h3>
+  <p>Utilizando a tabela de conversão, converta cada conjunto de números em seu caractere correspondente</p>
+  <p><b>{{ decodificada }}</b></p>
+
+  <h3>Observações finais</h3>
+  <p>Para que a criptografia seja considerada segura, p e q devem ser números de no mínimo 1024 bits, ou seja, devem ter no mímino 308 algarismos</p>
+  <p>O recomendado para criptografias de alta segurança ou longa duração é 2048 bits, ou 617 algarismos</p>
+
+  <a href="/apostila7.pdf" about="_blank">Apostila OBMEP</a>
+</div>
+
+<script>
+  // --- HELPERS ---
+  // precodification table
+  const createTable = (sourceTable) => {
+    const myMap = { char: {}, num: {} }
+    let num = 111
+
+    sourceTable.forEach(n => {
+      const char = String.fromCharCode(n)
+      myMap.num[num] = char
+      myMap.char[char] = num
+      num++
+      while(String(num).includes('0')) num++
+    })
+
+    return myMap
+  }
+
+  const table = createTable([
+    ...Array.from({ length: 26 }, (_, index) => index + 65), // A-Z
+    199, // Ç
+    ...Array.from({ length: 26 }, (_, index) => index + 97), // a-z
+    231, // ç
+    ...Array.from({ length: 10 }, (_, index) => index + 48), // 0-9
+    ...Array.from({ length: 16 }, (_, index) => index + 32), // symbols
+    ...Array.from({ length: 7  }, (_, index) => index + 58), // symbols
+    9, 10 // \t, \n
+    
+    // ...Array.from({ length: 200 }, (_, index) => index + 0),
+  ])
+
+  console.log(table)
+
+  // printable example
+  const tableEx = Object.fromEntries(
+    Object.entries(table.num).filter((key, value) => key[0] < 141)
+  )
+
+  // check if a number is prime
+  const isPrime = (num) => {
+    // Numbers less than or equal to 1 are not prime
+    if (num <= 1) return false
+    
+    // 2 is the only even prime number
+    if (num === 2) return true
+    
+    // Exclude all other even numbers
+    if (num % 2 === 0) return false
+
+    // Check odd factors up to the square root of the number
+    const boundary = Math.sqrt(num)
+    for (let i = 3; i <= boundary; i += 2) {
+      if (num % i === 0) return false // Found a factor, so it's not prime
+    }
+
+    return true // No factors found, it is prime
+  }
+
+  // find the greateast common divisor (using Euclidean algorithm)
+  const gcd = (a, b) => b === 0 ? a : gcd(b, a % b)
+
+  // module
+  const model = (n, e, p) => (n ** e) % p
+
+  // inverse module
+  const findModInverse = (a, m) => {
+    let m0 = m
+    let y = 0, x = 1
+
+    if (m === 1) return 0
+
+    while (a > 1) {
+      // q is quocient
+      let q = Math.floor(a / m)
+      let t = m
+
+      // m is the rest now, the process continues using regular Euclides
+      m = a % m
+      a = t
+      t = y
+
+      // update x and y
+      y = x - q * y
+      x = t
+    }
+
+    // x < 0 -> abs(m0)
+    if (x < 0) x += m0
+
+    return x
+  }
+
+  // split number in chucks not greater than n
+  const splitNumber = (str, max) => {
+    const parts = []
+    let i = 0
+    
+    while (i < str.length) {
+      let chunkLength = String(max).length
+      let chunk = str.slice(i, i + chunkLength)
+
+      while (Number(chunk) >= max || chunk.length > str.length - i) {
+        chunkLength--
+        chunk = str.slice(i, i + chunkLength)
+      }
+
+      parts.push(chunk)
+      i += chunkLength
+    }
+    
+    return parts
+  }
+
+  const { createApp, ref, computed } = Vue;
+  
+  createApp({
+    setup() {
+      // --- STATE ---
+      const tableX = ref(tableEx)
+      const tableL = ref(table)
+
+      const p_user = ref(3)
+      const q_user = ref(11)
+      const e_user = ref(3)
+      
+      const publicKey = ref(null)
+      const secretKey = ref(null)
+      const message = ref('abcd')    
+
+      // --- COMPUTED STATE ---
+      const pIsPrime = computed(() => isPrime(p_user.value))
+      const qIsPrime = computed(() => isPrime(q_user.value))
+
+      const p = computed(() => pIsPrime.value ? p_user.value : 2)
+      const q = computed(() => qIsPrime.value ? q_user.value : 3)
+
+      const p_error = computed(() => pIsPrime.value ? '' : `Error: ${p_user.value} não é um número primo, ${p.value} será usado`)
+      const q_error = computed(() => qIsPrime.value ? '' : `Error: ${q_user.value} não é um número primo, ${q.value} será usado`)
+
+      const n = computed(() => p.value * q.value)
+      const euler = computed(() => (p.value - 1)*(q.value- 1))
+
+      const e_gcd = computed(() => gcd(e_user.value, euler.value))
+      const e_coprime = computed(() => e_gcd.value === 1)
+      const e = computed(() => e_coprime.value ? e_user.value : 2)
+      const e_error = computed(() => e_coprime.value ? '' : `Error: ${e_user.value} não é coprimo de ${euler.value}, uma vez que o MDC(${e_user.value}, ${euler.value}) é ${e_gcd.value}, então 𝓮 = ${e.value} será usado`)
+
+      const d = computed(() => findModInverse(e.value, euler.value))
+
+      const codificada = computed(() => Array
+        .from(message.value)
+        .map(char => {
+          const num = table.char[char]
+          return num ? num : ''
+        })
+        .join('')
+      )
+
+      const blocos = computed(() => splitNumber(codificada.value, n.value))
+
+      const cifrada = computed(() => blocos.value.map(M => model(Number(M), e.value, n.value)))
+
+      const decifrada = computed(() => cifrada.value.map(C => model(C, d.value, n.value)))
+
+      const decodedNum = computed(() => decifrada.value.join(''))
+
+      const decodedBlocks = computed(() => splitNumber(decodedNum.value, 999))
+
+      const decodificada = computed(() => decodedBlocks.value
+        .map(num => {
+          const char = table.num[num]
+          return char ? char : ''
+        })
+        .join('')  
+      )
+
+      return {
+        p_user, q_user, p_error, q_error, p, q,
+        n, euler,
+        e_user, e_error, e,
+        d,
+        tableX, tableL,
+        message, codificada, blocos, cifrada,
+        decifrada, decodedNum, decodedBlocks, decodificada
+      }
+    }
+  }).mount('#app');
+</script>
+</body>
+</html>
