@@ -1,0 +1,79 @@
+:root { --opacity: 0.4; --accent: #b04be3; --black: #303030; }
+
+* {
+  color: var(--black);
+  outline-color: transparent; /* same effect as outline: none, but still allows high contrast mode (accessibility) */
+  &:focus-visible { outline-color: var(--accent) }
+}
+::selection{ background: var(--accent) }
+
+html { scroll-behavior: smooth }
+
+body {
+  width: 100vw; min-height: 100svh; overflow-x: hidden;
+  margin: 0; padding: 0;
+  display: grid; justify-content: center;
+  padding-block: 3em;
+  counter-reset: h3-counter;
+  accent-color: var(--accent);
+}
+
+h1, h2 { min-inline-size: minmax(fit-content, 80%); margin: auto; font-weight: bold; text-wrap: balance } /* min-inline-size acts similarly to width; balance breaks text keeping the same number of words in each line */
+h1 { font-size: clamp(1.6rem, 3vw + 1rem, 3rem);    margin-block: 1rem } /* responsive and zoomable font-size; top and bottom margin only */
+h2 { font-size: clamp(1.2rem, 2vw + .8rem, 2.5rem); margin-block: .8rem }
+
+h1 { text-align: center }
+h3:nth-of-type(n+2) { margin-top: 2.5rem }
+h3::before {
+  counter-increment: h3-counter;
+  content: counter(h3-counter) "";
+  opacity: var(--opacity);
+  position: absolute;
+  font-size: 2rem;
+  margin: -4px 0 0 -2.5rem;
+  text-align: right;
+  width: 2ch;
+}
+p  { font-size: clamp(.8rem, .8vw + .5rem, 1rem); line-height: clamp(.9rem, 1vw +.7rem, 1.2rem) }
+
+.red { color: red }
+
+table { text-align: center; border-collapse: collapse; font-variant-numeric: tabular-nums }
+td { border: 1px solid rgba(0, 0, 0, var(--opacity)); padding: 3px }
+
+input, textarea { padding: .6ch 1ch; min-width: 25ch }
+textarea { width: 100%; max-width: 600px; min-height: 5lh }
+
+button, a {
+  --l: .6;
+  --bg: oklch(from var(--accent) var(--l) c h / alpha);
+  /* l: 0 - 1; c: 0 - 0.4; h: 0 - 360; alpha: 0 - 1 */
+  
+  &:hover { --l: .65 }
+}
+
+button {
+  --cl: oklch(from var(--bg) clamp(0, calc((0.7 - l) * 1000), 1) 0 0);
+
+  color: var(--cl); font-weight: bold;
+  padding: 1rem 1.2rem; margin-block: 1rem 2rem;
+  border: 1px solid var(--cl); border-radius: 5px; 
+  background-color: var(--bg);
+  cursor: pointer;
+}
+
+a { text-align: center; width: 100%; color: var(--bg) }
+
+a::after {
+  --content: '';
+  content: '';
+  display: inline-block;
+  margin-top: 2px;
+  width: 1lh; height: 1lh;
+  background-color: var(--bg); 
+  
+  -webkit-mask: var(--content) no-repeat center / contain;
+  mask: var(--content) no-repeat center / contain;
+}
+
+[href$=".pdf"]::after { content: '' / "download PDF file"; --content: url('/file-save.svg') } /* adds an icon and alt text to downloadable pdf href */
